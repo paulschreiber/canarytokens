@@ -15,22 +15,26 @@ on:
 jobs:
   dev-deploy:
     # if: github.repository == 'thinkst/canarytokens' && ( github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/master' )
-    runs-on: [self-hosted, dev]
+    runs-on: self-hosted
     steps:
-      - name: Deploy to dev machine
-        run: |
-          cd /home/ubuntu/canarytokens-scripts/
-          ./canarytokensdb_s3backup.sh
+      - name: Hello World
+        run: echo 'Hello World!'
+    # steps:
+    #   - name: Deploy to dev machine
+    #     run: |
+    #       cd /home/ubuntu/canarytokens-scripts/
+    #       ./canarytokensdb_s3backup.sh
 
-          cd /home/ubuntu/canarytokens-docker
-          sed "s/thinkst\/canarytokens:dev/thinkst\/canarytokens:${GITHUB_REF##*/}/g" docker-compose-letsencrypt.yml.tpl > docker-compose-letsencrypt.yml.tpl
-          sed -i'' "s/CANARY_DEV_BUILD_ID=.*/CANARY_DEV_BUILD_ID=${GITHUB_SHA:0:8}/"
-          docker-compose -f docker-compose-letsencrypt.yml pull
-          docker-compose -f docker-compose-letsencrypt.yml down
-          docker-compose -f docker-compose-letsencrypt.yml up -d
+    #       cd /home/ubuntu/canarytokens-docker
+    #       sed "s/thinkst\/canarytokens:dev/thinkst\/canarytokens:${GITHUB_REF##*/}/g" docker-compose-letsencrypt.yml.tpl > docker-compose-letsencrypt.yml.tpl
+    #       sed -i'' "s/CANARY_DEV_BUILD_ID=.*/CANARY_DEV_BUILD_ID=${GITHUB_SHA:0:8}/"
+    #       docker-compose -f docker-compose-letsencrypt.yml pull
+    #       docker-compose -f docker-compose-letsencrypt.yml down
+    #       docker-compose -f docker-compose-letsencrypt.yml up -d
 
   build:
     runs-on: ubuntu-18.04
+    needs: dev-deploy
     env:
       COPYFILE_DISABLE: 1
 
