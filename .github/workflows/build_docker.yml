@@ -87,6 +87,7 @@ jobs:
           sudo docker-compose -f docker-compose-letsencrypt.yml pull
           sudo docker-compose -f docker-compose-letsencrypt.yml down
           sudo docker-compose -f docker-compose-letsencrypt.yml up -d
+          sudo docker system prune -f -a
 
   staging-deploy:
     if: github.repository == 'thinkst/canarytokens' && github.ref == 'refs/heads/master'
@@ -105,3 +106,4 @@ jobs:
           sudo docker-compose -f docker-compose-letsencrypt.yml pull
           sudo docker-compose -f docker-compose-letsencrypt.yml down
           sudo docker-compose -f docker-compose-letsencrypt.yml up -d
+          sudo docker system prune -f -a
