@@ -338,7 +338,7 @@
                   Key Last Used
                 </td>
                 <td>
-                  {{ canarydrop['triggered_list'][item]['additional_info']['AWS Key Log Data'].get('last_used', None)|e }} 
+                  {{ canarydrop['triggered_list'][item]['additional_info']['AWS Key Log Data']['last_used'][0]|e }}
                 </td>
               </tr>
           {% continue %}
